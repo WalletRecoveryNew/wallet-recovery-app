@@ -1,0 +1,312 @@
+<!-- Dashboard Header -->
+<div class="bg-primary text-white py-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="fw-bold">Dashboard</h1>
+        <p class="lead mb-0">Welcome back, <%= user.name %></p>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="/wallets/new" class="btn btn-light">
+          <i class="fas fa-plus me-2"></i> New Recovery Request
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Content -->
+<div class="container py-5">
+  <div class="row">
+    <!-- Dashboard Sidebar -->
+    <div class="col-lg-3 mb-4 mb-lg-0">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <div class="text-center mb-3">
+            <div class="avatar-circle bg-primary text-white mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+              <%= user.name.charAt(0).toUpperCase() %>
+            </div>
+            <h5 class="mb-1"><%= user.name %></h5>
+            <p class="text-muted mb-0"><%= user.email %></p>
+          </div>
+          <div class="d-grid gap-2 mt-3">
+            <a href="/users/profile" class="btn btn-outline-primary">
+              <i class="fas fa-user-edit me-2"></i> Edit Profile
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="list-group mb-4 shadow-sm">
+        <a href="/dashboard" class="list-group-item list-group-item-action active">
+          <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+        </a>
+        <a href="/wallets" class="list-group-item list-group-item-action">
+          <i class="fas fa-wallet me-2"></i> My Wallets
+        </a>
+        <a href="/recovery-process" class="list-group-item list-group-item-action">
+          <i class="fas fa-clipboard-list me-2"></i> Recovery Process
+        </a>
+        <a href="/users/profile" class="list-group-item list-group-item-action">
+          <i class="fas fa-user-cog me-2"></i> Account Settings
+        </a>
+      </div>
+      
+      <div class="card bg-light border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Need Help?</h5>
+          <p class="card-text small">Contact our support team for assistance with your wallet recovery.</p>
+          <a href="/contact" class="btn btn-sm btn-outline-primary">Contact Support</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Dashboard Main Content -->
+    <div class="col-lg-9">
+      <!-- Stats Row -->
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="card dashboard-card h-100 border-0">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="flex-shrink-0">
+                  <div class="bg-primary bg-opacity-10 text-primary rounded p-3">
+                    <i class="fas fa-wallet fa-2x"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="text-muted mb-1">Total Requests</h6>
+                  <h4 class="mb-0">3</h4>
+                </div>
+              </div>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: 70%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card dashboard-card h-100 border-0">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="flex-shrink-0">
+                  <div class="bg-success bg-opacity-10 text-success rounded p-3">
+                    <i class="fas fa-check-circle fa-2x"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="text-muted mb-1">Completed</h6>
+                  <h4 class="mb-0">1</h4>
+                </div>
+              </div>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 33%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card dashboard-card h-100 border-0">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="flex-shrink-0">
+                  <div class="bg-warning bg-opacity-10 text-warning rounded p-3">
+                    <i class="fas fa-clock fa-2x"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="text-muted mb-1">In Progress</h6>
+                  <h4 class="mb-0">2</h4>
+                </div>
+              </div>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 66%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Wallet Requests -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Recent Wallet Recovery Requests</h5>
+            <a href="/wallets" class="btn btn-sm btn-outline-primary">View All</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Wallet Type</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="crypto-icon me-2 bg-warning bg-opacity-10 text-warning p-2 rounded">
+                        <i class="fab fa-bitcoin"></i>
+                      </div>
+                      <span>Bitcoin</span>
+                    </div>
+                  </td>
+                  <td><span class="text-truncate d-inline-block" style="max-width: 150px;">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span></td>
+                  <td><span class="badge bg-success">Completed</span></td>
+                  <td>May 12, 2023</td>
+                  <td>
+                    <a href="/wallets/1" class="btn btn-sm btn-outline-primary">View</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="crypto-icon me-2 bg-primary bg-opacity-10 text-primary p-2 rounded">
+                        <i class="fab fa-ethereum"></i>
+                      </div>
+                      <span>Ethereum</span>
+                    </div>
+                  </td>
+                  <td><span class="text-truncate d-inline-block" style="max-width: 150px;">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span></td>
+                  <td><span class="badge bg-warning">In Progress</span></td>
+                  <td>Jun 3, 2023</td>
+                  <td>
+                    <a href="/wallets/2" class="btn btn-sm btn-outline-primary">View</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="crypto-icon me-2 bg-info bg-opacity-10 text-info p-2 rounded">
+                        <i class="fas fa-wallet"></i>
+                      </div>
+                      <span>Solana</span>
+                    </div>
+                  </td>
+                  <td><span class="text-truncate d-inline-block" style="max-width: 150px;">7Np41oeYwQaar9D1aSGLXxEMT1CW4KLUkjFoRJWH9Bqg</span></td>
+                  <td><span class="badge bg-warning">In Progress</span></td>
+                  <td>Jul 18, 2023</td>
+                  <td>
+                    <a href="/wallets/3" class="btn btn-sm btn-outline-primary">View</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recovery Process -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Wallet Recovery Process</h5>
+        </div>
+        <div class="card-body">
+          <div class="recovery-process-timeline">
+            <div class="timeline-item completed">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5>Submit Request</h5>
+                <p class="text-muted">Provide details about your wallet and the issue you're experiencing.</p>
+              </div>
+            </div>
+            <div class="timeline-item active">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5>Analysis & Diagnosis</h5>
+                <p class="text-muted">Our experts analyze your wallet issue and develop a recovery plan.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5>Recovery Process</h5>
+                <p class="text-muted">We execute the recovery plan to restore access to your wallet.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5>Verification & Access</h5>
+                <p class="text-muted">Verify the recovery was successful and regain access to your assets.</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <a href="/recovery-process" class="btn btn-primary">Learn More About Our Process</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  .crypto-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .recovery-process-timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  
+  .recovery-process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    width: 2px;
+    background-color: #e9ecef;
+  }
+  
+  .timeline-item {
+    position: relative;
+    padding-bottom: 25px;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    left: -30px;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #dee2e6;
+    border: 2px solid #fff;
+    z-index: 1;
+  }
+  
+  .timeline-item.completed .timeline-dot {
+    background-color: #198754;
+  }
+  
+  .timeline-item.active .timeline-dot {
+    background-color: #0d6efd;
+  }
+  
+  .timeline-content {
+    padding-left: 15px;
+  }
+</style> 

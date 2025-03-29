@@ -1,0 +1,248 @@
+<!-- Blog Category Header -->
+<div class="bg-primary text-white py-5">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <h1 class="fw-bold mb-3">Blog Category: <%= category %></h1>
+        <p class="lead">Browse our articles about <%= category.toLowerCase() %> and wallet recovery</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Category Content -->
+<div class="container py-5">
+  <div class="row">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+      <!-- Category Description -->
+      <div class="bg-light p-4 rounded-3 mb-4">
+        <% if (category === 'Wallet Security') { %>
+          <p class="mb-0">Articles focused on securing your cryptocurrency wallets against threats, implementing best practices, and understanding security vulnerabilities.</p>
+        <% } else if (category === 'Recovery Guides') { %>
+          <p class="mb-0">Step-by-step guides for recovering different types of cryptocurrency wallets and addressing common access issues.</p>
+        <% } else if (category === 'Case Studies') { %>
+          <p class="mb-0">Real-world examples of successful wallet recovery operations, detailing the challenges faced and solutions implemented.</p>
+        <% } else if (category === 'News & Updates') { %>
+          <p class="mb-0">Latest developments in cryptocurrency wallet technology, security updates, and industry news relevant to wallet owners.</p>
+        <% } else if (category === 'Tips & Tricks') { %>
+          <p class="mb-0">Practical advice and lesser-known techniques for managing, securing, and recovering cryptocurrency wallets.</p>
+        <% } else { %>
+          <p class="mb-0">Articles related to <%= category.toLowerCase() %> aspects of cryptocurrency wallet management and recovery.</p>
+        <% } %>
+      </div>
+      
+      <!-- Blog Posts -->
+      <div class="row g-4">
+        <!-- Post 1 -->
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Blog post">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-primary me-2"><%= category %></span>
+                <span class="text-muted small">January 10, 2023</span>
+              </div>
+              <h4 class="card-title mb-3">5 Common Mistakes That Lead to Lost Crypto Wallets</h4>
+              <p class="card-text text-muted">Discover the most common mistakes cryptocurrency users make that result in lost access to their wallets.</p>
+              <a href="#" class="btn btn-link text-primary p-0 mt-2">Read More →</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Post 2 -->
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Blog post">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-primary me-2"><%= category %></span>
+                <span class="text-muted small">January 5, 2023</span>
+              </div>
+              <h4 class="card-title mb-3">How to Create a Proper Backup of Your Cryptocurrency Wallet</h4>
+              <p class="card-text text-muted">Step-by-step instructions on creating secure backups for different types of cryptocurrency wallets.</p>
+              <a href="#" class="btn btn-link text-primary p-0 mt-2">Read More →</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Post 3 -->
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Blog post">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-primary me-2"><%= category %></span>
+                <span class="text-muted small">December 28, 2022</span>
+              </div>
+              <h4 class="card-title mb-3">Recovered After 3 Years: A Bitcoin Wallet Recovery Success Story</h4>
+              <p class="card-text text-muted">Read about how our team recovered a Bitcoin wallet that had been inaccessible for over three years.</p>
+              <a href="#" class="btn btn-link text-primary p-0 mt-2">Read More →</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Post 4 -->
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Blog post">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-primary me-2"><%= category %></span>
+                <span class="text-muted small">December 20, 2022</span>
+              </div>
+              <h4 class="card-title mb-3">Beware of These Wallet Recovery Scams Targeting Crypto Holders</h4>
+              <p class="card-text text-muted">Learn to identify and avoid common scams targeting cryptocurrency users who have lost access to their wallets.</p>
+              <a href="#" class="btn btn-link text-primary p-0 mt-2">Read More →</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Post 5 -->
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Blog post">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-primary me-2"><%= category %></span>
+                <span class="text-muted small">December 15, 2022</span>
+              </div>
+              <h4 class="card-title mb-3">The Psychology of Password Creation and Why We Forget Them</h4>
+              <p class="card-text text-muted">Understanding the cognitive processes behind password creation and why we're prone to forgetting them.</p>
+              <a href="#" class="btn btn-link text-primary p-0 mt-2">Read More →</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Post 6 -->
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Blog post">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-primary me-2"><%= category %></span>
+                <span class="text-muted small">December 10, 2022</span>
+              </div>
+              <h4 class="card-title mb-3">Hardware vs. Software Wallets: Which is Right for You?</h4>
+              <p class="card-text text-muted">A detailed comparison of hardware and software cryptocurrency wallets to help you choose the right option.</p>
+              <a href="#" class="btn btn-link text-primary p-0 mt-2">Read More →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <!-- Categories -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h5 class="mb-3">Categories</h5>
+          <div class="list-group list-group-flush">
+            <a href="/blog/category/wallet-security" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <%= category === 'Wallet Security' ? 'active' : '' %>">
+              Wallet Security
+              <span class="badge bg-primary rounded-pill">12</span>
+            </a>
+            <a href="/blog/category/recovery-guides" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <%= category === 'Recovery Guides' ? 'active' : '' %>">
+              Recovery Guides
+              <span class="badge bg-primary rounded-pill">8</span>
+            </a>
+            <a href="/blog/category/case-studies" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <%= category === 'Case Studies' ? 'active' : '' %>">
+              Case Studies
+              <span class="badge bg-primary rounded-pill">6</span>
+            </a>
+            <a href="/blog/category/news-updates" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <%= category === 'News & Updates' ? 'active' : '' %>">
+              News & Updates
+              <span class="badge bg-primary rounded-pill">4</span>
+            </a>
+            <a href="/blog/category/tips-tricks" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center <%= category === 'Tips & Tricks' ? 'active' : '' %>">
+              Tips & Tricks
+              <span class="badge bg-primary rounded-pill">10</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Posts -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h5 class="mb-3">Recent Posts</h5>
+          <div class="recent-posts">
+            <div class="d-flex mb-3">
+              <img src="https://via.placeholder.com/70" class="rounded me-3" alt="Recent post">
+              <div>
+                <h6 class="mb-1">Understanding Cryptocurrency Wallet Security</h6>
+                <p class="text-muted small mb-0">January 15, 2023</p>
+              </div>
+            </div>
+            <div class="d-flex mb-3">
+              <img src="https://via.placeholder.com/70" class="rounded me-3" alt="Recent post">
+              <div>
+                <h6 class="mb-1">5 Common Mistakes That Lead to Lost Crypto Wallets</h6>
+                <p class="text-muted small mb-0">January 10, 2023</p>
+              </div>
+            </div>
+            <div class="d-flex">
+              <img src="https://via.placeholder.com/70" class="rounded me-3" alt="Recent post">
+              <div>
+                <h6 class="mb-1">How to Create a Proper Backup of Your Cryptocurrency Wallet</h6>
+                <p class="text-muted small mb-0">January 5, 2023</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tags -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h5 class="mb-3">Tags</h5>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Bitcoin</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Ethereum</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Password</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Seed Phrase</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Recovery</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Security</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Hardware Wallet</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Backup</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Tutorial</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Cryptocurrency</a>
+            <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Blockchain</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Newsletter -->
+      <div class="card border-0 shadow-sm bg-light">
+        <div class="card-body p-4">
+          <h5 class="mb-3">Subscribe to Our Newsletter</h5>
+          <p class="text-muted mb-3">Get the latest articles, guides, and updates on cryptocurrency wallet recovery delivered to your inbox.</p>
+          <form>
+            <div class="mb-3">
+              <input type="email" class="form-control" placeholder="Enter your email">
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,304 @@
+<!-- Create Recovery Request Header -->
+<div class="bg-primary text-white py-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="fw-bold">New Recovery Request</h1>
+        <p class="lead mb-0">Submit the details of your wallet to begin the recovery process</p>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="/dashboard" class="btn btn-light">
+          <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recovery Request Form -->
+<div class="container py-5">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <form action="/wallets/new" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+              <h5 class="mb-3">Wallet Information</h5>
+              
+              <div class="mb-3">
+                <label for="walletType" class="form-label">Wallet Type</label>
+                <select class="form-select" id="walletType" name="walletType" required>
+                  <option value="" selected disabled>Select a wallet type</option>
+                  <option value="bitcoin">Bitcoin</option>
+                  <option value="ethereum">Ethereum</option>
+                  <option value="litecoin">Litecoin</option>
+                  <option value="ripple">Ripple (XRP)</option>
+                  <option value="solana">Solana</option>
+                  <option value="cardano">Cardano</option>
+                  <option value="dogecoin">Dogecoin</option>
+                  <option value="polkadot">Polkadot</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              <div id="otherWalletTypeField" class="mb-3 d-none">
+                <label for="otherWalletType" class="form-label">Specify Wallet Type</label>
+                <input type="text" class="form-control" id="otherWalletType" name="otherWalletType">
+              </div>
+              
+              <div class="mb-3">
+                <label for="walletAddress" class="form-label">Wallet Address</label>
+                <input type="text" class="form-control" id="walletAddress" name="walletAddress" required>
+                <div class="form-text">Enter the public address of your wallet.</div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="walletSoftware" class="form-label">Wallet Software or Service</label>
+                <input type="text" class="form-control" id="walletSoftware" name="walletSoftware" placeholder="e.g. MetaMask, Ledger, Trezor, etc." required>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <h5 class="mb-3">Issue Details</h5>
+              
+              <div class="mb-3">
+                <label for="issueType" class="form-label">Type of Issue</label>
+                <select class="form-select" id="issueType" name="issueType" required>
+                  <option value="" selected disabled>Select an issue type</option>
+                  <option value="forgotten_password">Forgotten Password</option>
+                  <option value="lost_seed">Lost Seed Phrase</option>
+                  <option value="hardware_damage">Hardware Wallet Damage</option>
+                  <option value="corrupted_wallet">Corrupted Wallet File</option>
+                  <option value="phishing">Phishing Attack</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              <div id="otherIssueTypeField" class="mb-3 d-none">
+                <label for="otherIssueType" class="form-label">Specify Issue Type</label>
+                <input type="text" class="form-control" id="otherIssueType" name="otherIssueType">
+              </div>
+              
+              <div class="mb-3">
+                <label for="issueDescription" class="form-label">Detailed Description</label>
+                <textarea class="form-control" id="issueDescription" name="problemDescription" rows="4" required></textarea>
+                <div class="form-text">Provide as much detail as possible about your issue. Include when the problem started, any error messages, and steps you've already tried.</div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="lastAccess" class="form-label">When did you last access your wallet?</label>
+                <input type="date" class="form-control" id="lastAccess" name="lastAccess">
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <h5 class="mb-3">Authentication Proof</h5>
+              <p class="text-muted small">To prevent fraud and verify you're the owner of the wallet, we require some form of authentication.</p>
+              
+              <div class="mb-3">
+                <label for="proofType" class="form-label">Proof of Ownership</label>
+                <select class="form-select" id="proofType" name="proofType" required>
+                  <option value="" selected disabled>Select proof type</option>
+                  <option value="transaction_history">Transaction History Knowledge</option>
+                  <option value="partial_seed">Partial Seed Phrase</option>
+                  <option value="old_password">Old Password (if changed)</option>
+                  <option value="email_verification">Email Associated with Exchange</option>
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label for="proofDetails" class="form-label">Proof Details</label>
+                <textarea class="form-control" id="proofDetails" name="additionalInfo" rows="3" required></textarea>
+                <div class="form-text">Depending on your selection above, provide details that verify your ownership (e.g., describe some past transactions, provide partial seed words, etc.).</div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="supportingDocuments" class="form-label">Supporting Documents (Optional)</label>
+                <input class="form-control" type="file" id="supportingDocuments" name="documents" multiple>
+                <div class="form-text">Upload any screenshots, error messages, or other documents that might help us understand and solve your issue.</div>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <h5 class="mb-3">Priority Level</h5>
+              
+              <div class="mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="priorityLevel" id="standardPriority" value="standard" checked>
+                  <label class="form-check-label" for="standardPriority">
+                    <strong>Standard Priority</strong> - Estimated time: 3-5 business days
+                  </label>
+                </div>
+                <div class="form-check mt-2">
+                  <input class="form-check-input" type="radio" name="priorityLevel" id="expressPriority" value="express">
+                  <label class="form-check-label" for="expressPriority">
+                    <strong>Express Priority</strong> - Estimated time: 1-2 business days (additional fee applies)
+                  </label>
+                </div>
+                <div class="form-check mt-2">
+                  <input class="form-check-input" type="radio" name="priorityLevel" id="emergencyPriority" value="emergency">
+                  <label class="form-check-label" for="emergencyPriority">
+                    <strong>Emergency Priority</strong> - Start within 24 hours (significant additional fee applies)
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="termsAgree" name="termsAgree" required>
+                <label class="form-check-label" for="termsAgree">
+                  I understand and agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input class="form-check-input" type="checkbox" id="securityAgree" name="securityAgree" required>
+                <label class="form-check-label" for="securityAgree">
+                  I understand that I should never share my full private keys or seed phrases with anyone, including the wallet recovery service, unless specifically instructed to do so through secure and verified channels.
+                </label>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-paper-plane me-2"></i>Submit Recovery Request
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Recovery Process</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <div class="step-icon rounded-circle bg-primary text-white">1</div>
+            <div class="ms-3">
+              <h6>Submit Request</h6>
+              <p class="text-muted small mb-0">Complete this form with all the necessary details about your wallet and issue.</p>
+            </div>
+          </div>
+          <div class="d-flex mb-3">
+            <div class="step-icon rounded-circle bg-light text-muted">2</div>
+            <div class="ms-3">
+              <h6>Analysis & Diagnosis</h6>
+              <p class="text-muted small mb-0">Our experts will analyze your case and provide an assessment of recovery possibilities.</p>
+            </div>
+          </div>
+          <div class="d-flex mb-3">
+            <div class="step-icon rounded-circle bg-light text-muted">3</div>
+            <div class="ms-3">
+              <h6>Recovery Process</h6>
+              <p class="text-muted small mb-0">We'll work on recovering your wallet using various specialized techniques.</p>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="step-icon rounded-circle bg-light text-muted">4</div>
+            <div class="ms-3">
+              <h6>Verification & Access</h6>
+              <p class="text-muted small mb-0">Once recovered, we'll verify the results and provide you with secure access.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Security Reminder</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-shield-alt text-primary fa-2x me-3"></i>
+            <p class="mb-0">We will <strong>never</strong> ask for your complete seed phrase or private keys through email, chat, or phone.</p>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-lock text-primary fa-2x me-3"></i>
+            <p class="mb-0">All communications are encrypted and our recovery processes follow industry-standard security protocols.</p>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="fas fa-user-shield text-primary fa-2x me-3"></i>
+            <p class="mb-0">Your personal information is strictly confidential and protected under our privacy policy.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Need Help?</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted">Not sure what information to provide or have questions about the recovery process?</p>
+          <div class="d-grid gap-2">
+            <a href="/faq" class="btn btn-outline-primary">
+              <i class="fas fa-question-circle me-2"></i>View FAQ
+            </a>
+            <a href="/contact" class="btn btn-outline-primary">
+              <i class="fas fa-headset me-2"></i>Contact Support
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .step-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+  // Show/hide other wallet type field
+  document.getElementById('walletType').addEventListener('change', function() {
+    const otherField = document.getElementById('otherWalletTypeField');
+    if (this.value === 'other') {
+      otherField.classList.remove('d-none');
+    } else {
+      otherField.classList.add('d-none');
+    }
+  });
+  
+  // Show/hide other issue type field
+  document.getElementById('issueType').addEventListener('change', function() {
+    const otherField = document.getElementById('otherIssueTypeField');
+    if (this.value === 'other') {
+      otherField.classList.remove('d-none');
+    } else {
+      otherField.classList.add('d-none');
+    }
+  });
+  
+  // Form validation
+  document.querySelector('form').addEventListener('submit', function(e) {
+    const walletType = document.getElementById('walletType');
+    const otherWalletType = document.getElementById('otherWalletType');
+    const issueType = document.getElementById('issueType');
+    const otherIssueType = document.getElementById('otherIssueType');
+    
+    // Validate "other" fields if selected
+    if (walletType.value === 'other' && !otherWalletType.value.trim()) {
+      e.preventDefault();
+      alert('Please specify the wallet type.');
+      otherWalletType.focus();
+      return;
+    }
+    
+    if (issueType.value === 'other' && !otherIssueType.value.trim()) {
+      e.preventDefault();
+      alert('Please specify the issue type.');
+      otherIssueType.focus();
+      return;
+    }
+  });
+</script> 

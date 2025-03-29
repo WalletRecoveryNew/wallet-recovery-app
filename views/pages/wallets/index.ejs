@@ -1,0 +1,352 @@
+<!-- Wallets List Header -->
+<div class="bg-primary text-white py-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="fw-bold">My Wallet Recoveries</h1>
+        <p class="lead mb-0">Track and manage all your wallet recovery requests</p>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="/wallets/new" class="btn btn-light">
+          <i class="fas fa-plus me-2"></i> New Recovery Request
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wallets List Content -->
+<div class="container py-5">
+  <div class="row">
+    <!-- Wallets Table Section -->
+    <div class="col-12">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <!-- Filters and Search -->
+          <div class="row mb-4">
+            <div class="col-md-7 d-flex">
+              <div class="btn-group me-3">
+                <button class="btn btn-outline-primary active">All</button>
+                <button class="btn btn-outline-primary">In Progress</button>
+                <button class="btn btn-outline-primary">Completed</button>
+                <button class="btn btn-outline-primary">Pending</button>
+              </div>
+              <select class="form-select w-auto">
+                <option selected>Sort By: Newest First</option>
+                <option>Sort By: Oldest First</option>
+                <option>Sort By: Status</option>
+                <option>Sort By: Wallet Type</option>
+              </select>
+            </div>
+            <div class="col-md-5">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search wallets...">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Wallets Table -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Wallet</th>
+                  <th>Issue</th>
+                  <th>Created</th>
+                  <th>Status</th>
+                  <th>Progress</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (wallets && wallets.length > 0) { %>
+                  <% wallets.forEach(wallet => { %>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <% if (wallet.walletType === 'bitcoin') { %>
+                            <div class="crypto-icon me-2 bg-warning bg-opacity-10 text-warning p-2 rounded">
+                              <i class="fab fa-bitcoin"></i>
+                            </div>
+                          <% } else if (wallet.walletType === 'ethereum') { %>
+                            <div class="crypto-icon me-2 bg-primary bg-opacity-10 text-primary p-2 rounded">
+                              <i class="fab fa-ethereum"></i>
+                            </div>
+                          <% } else { %>
+                            <div class="crypto-icon me-2 bg-info bg-opacity-10 text-info p-2 rounded">
+                              <i class="fas fa-wallet"></i>
+                            </div>
+                          <% } %>
+                          <div>
+                            <h6 class="mb-0"><%= wallet.walletType.charAt(0).toUpperCase() + wallet.walletType.slice(1) %></h6>
+                            <small class="text-muted text-truncate d-inline-block" style="max-width: 150px;"><%= wallet.walletAddress %></small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <% if (wallet.issueType === 'forgotten_password') { %>
+                          Forgotten Password
+                        <% } else if (wallet.issueType === 'lost_seed') { %>
+                          Lost Seed Phrase
+                        <% } else if (wallet.issueType === 'hardware_damage') { %>
+                          Hardware Damage
+                        <% } else if (wallet.issueType === 'corrupted_wallet') { %>
+                          Corrupted Wallet
+                        <% } else if (wallet.issueType === 'phishing') { %>
+                          Phishing Attack
+                        <% } else if (wallet.issueType === 'other') { %>
+                          Other: <%= wallet.otherIssueType %>
+                        <% } %>
+                      </td>
+                      <td><%= new Date(wallet.createdAt).toLocaleDateString() %></td>
+                      <td>
+                        <% if (wallet.status === 'completed') { %>
+                          <span class="badge bg-success">Completed</span>
+                        <% } else if (wallet.status === 'in_progress') { %>
+                          <span class="badge bg-warning">In Progress</span>
+                        <% } else if (wallet.status === 'pending') { %>
+                          <span class="badge bg-info">Pending</span>
+                        <% } else if (wallet.status === 'cancelled') { %>
+                          <span class="badge bg-danger">Cancelled</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <div class="progress" style="height: 6px; width: 100px;">
+                          <% if (wallet.status === 'completed') { %>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                          <% } else if (wallet.status === 'in_progress') { %>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 50%"></div>
+                          <% } else if (wallet.status === 'pending') { %>
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+                          <% } else if (wallet.status === 'cancelled') { %>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"></div>
+                          <% } %>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/wallets/<%= wallet.id %>"><i class="fas fa-eye me-2"></i> View Details</a></li>
+                            <% if (wallet.status !== 'completed' && wallet.status !== 'cancelled') { %>
+                              <li><a class="dropdown-item" href="/wallets/<%= wallet.id %>/edit"><i class="fas fa-edit me-2"></i> Edit Request</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#cancelModal<%= wallet.id %>"><i class="fas fa-times me-2"></i> Cancel Request</a></li>
+                            <% } %>
+                          </ul>
+                        </div>
+                        
+                        <!-- Cancel Modal for each wallet -->
+                        <div class="modal fade" id="cancelModal<%= wallet.id %>" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Cancel Recovery Request</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="alert alert-warning">
+                                  <i class="fas fa-exclamation-triangle me-2"></i> Are you sure you want to cancel this recovery request?
+                                </div>
+                                <p>Cancelling this request will stop all recovery efforts. If payment has been made, refunds are subject to our refund policy based on how much work has been completed.</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                                <form action="/wallets/<%= wallet.id %>/cancel" method="POST">
+                                  <button type="submit" class="btn btn-danger">Cancel Recovery</button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="6" class="text-center py-5">
+                      <div class="py-4">
+                        <i class="fas fa-wallet fa-3x text-muted mb-3"></i>
+                        <h5>No wallet recovery requests yet</h5>
+                        <p class="text-muted">You haven't submitted any wallet recovery requests yet.</p>
+                        <a href="/wallets/new" class="btn btn-primary mt-2">
+                          <i class="fas fa-plus me-2"></i> Create Your First Request
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Pagination -->
+          <% if (wallets && wallets.length > 0) { %>
+            <nav class="mt-4">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stats and Tips Section -->
+  <div class="row">
+    <!-- Stats -->
+    <div class="col-md-6 mb-4 mb-md-0">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Recovery Statistics</h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-4">
+              <h2 class="fw-bold text-primary"><%= wallets ? wallets.length : 0 %></h2>
+              <p class="text-muted mb-0">Total Requests</p>
+            </div>
+            <div class="col-4">
+              <h2 class="fw-bold text-success"><%= wallets ? wallets.filter(w => w.status === 'completed').length : 0 %></h2>
+              <p class="text-muted mb-0">Completed</p>
+            </div>
+            <div class="col-4">
+              <h2 class="fw-bold text-warning"><%= wallets ? wallets.filter(w => w.status === 'in_progress').length : 0 %></h2>
+              <p class="text-muted mb-0">In Progress</p>
+            </div>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+              <i class="fas fa-clock text-primary fa-2x me-3"></i>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">Average Recovery Time</h6>
+              <p class="mb-0">3-5 business days for standard requests</p>
+            </div>
+          </div>
+          
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <i class="fas fa-check-circle text-primary fa-2x me-3"></i>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">Success Rate</h6>
+              <p class="mb-0">93% of wallet recovery attempts are successful</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tips -->
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Wallet Security Tips</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex mb-3">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+            </div>
+            <div class="ms-3">
+              <h6>Use Hardware Wallets</h6>
+              <p class="text-muted small mb-0">Hardware wallets provide an extra layer of security by keeping your private keys offline.</p>
+            </div>
+          </div>
+          
+          <div class="d-flex mb-3">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle">
+                <i class="fas fa-key"></i>
+              </div>
+            </div>
+            <div class="ms-3">
+              <h6>Backup Your Seed Phrase</h6>
+              <p class="text-muted small mb-0">Store your seed phrase in multiple secure locations, preferably offline.</p>
+            </div>
+          </div>
+          
+          <div class="d-flex">
+            <div class="flex-shrink-0">
+              <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle">
+                <i class="fas fa-user-shield"></i>
+              </div>
+            </div>
+            <div class="ms-3">
+              <h6>Enable Two-Factor Authentication</h6>
+              <p class="text-muted small mb-0">Add an extra layer of security to your accounts with 2FA whenever possible.</p>
+            </div>
+          </div>
+          
+          <div class="text-center mt-4">
+            <a href="/blog/wallet-security-tips" class="btn btn-outline-primary">Read More Security Tips</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .crypto-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Filter buttons functionality
+    const filterButtons = document.querySelectorAll('.btn-group .btn');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Here you would typically filter the table based on the selected status
+        // For a real implementation, you would need to add AJAX or form submission
+      });
+    });
+    
+    // Search functionality
+    const searchInput = document.querySelector('input[type="text"]');
+    const searchButton = searchInput.nextElementSibling;
+    
+    searchButton.addEventListener('click', function() {
+      // Here you would implement the search functionality
+      // For a real implementation, you would need to add AJAX or form submission
+      alert('Search for: ' + searchInput.value);
+    });
+    
+    // Sort functionality
+    const sortSelect = document.querySelector('select');
+    sortSelect.addEventListener('change', function() {
+      // Here you would implement the sorting functionality
+      // For a real implementation, you would need to add AJAX or form submission
+      alert('Sort by: ' + this.value);
+    });
+  });
+</script> 

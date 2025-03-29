@@ -1,0 +1,588 @@
+<!-- Wallet Detail Header -->
+<div class="bg-primary text-white py-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <% if (wallet.walletType === 'bitcoin') { %>
+              <div class="crypto-icon bg-warning bg-opacity-25 text-warning p-2 rounded-circle">
+                <i class="fab fa-bitcoin fa-2x"></i>
+              </div>
+            <% } else if (wallet.walletType === 'ethereum') { %>
+              <div class="crypto-icon bg-primary bg-opacity-25 text-primary p-2 rounded-circle">
+                <i class="fab fa-ethereum fa-2x"></i>
+              </div>
+            <% } else { %>
+              <div class="crypto-icon bg-info bg-opacity-25 text-info p-2 rounded-circle">
+                <i class="fas fa-wallet fa-2x"></i>
+              </div>
+            <% } %>
+          </div>
+          <div>
+            <h1 class="fw-bold"><%= wallet.walletType.charAt(0).toUpperCase() + wallet.walletType.slice(1) %> Wallet Recovery</h1>
+            <p class="lead mb-0">Request #<%= wallet.id %> | Created on <%= new Date(wallet.createdAt).toLocaleDateString() %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="/wallets" class="btn btn-light me-2">
+          <i class="fas fa-list me-2"></i> All Wallets
+        </a>
+        <a href="/dashboard" class="btn btn-outline-light">
+          <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wallet Detail Content -->
+<div class="container py-5">
+  <div class="row">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+      <!-- Status Card -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Recovery Status</h5>
+            <% if (wallet.status === 'completed') { %>
+              <span class="badge bg-success px-3 py-2">Completed</span>
+            <% } else if (wallet.status === 'in_progress') { %>
+              <span class="badge bg-warning px-3 py-2">In Progress</span>
+            <% } else if (wallet.status === 'pending') { %>
+              <span class="badge bg-info px-3 py-2">Pending</span>
+            <% } else if (wallet.status === 'cancelled') { %>
+              <span class="badge bg-danger px-3 py-2">Cancelled</span>
+            <% } %>
+          </div>
+          
+          <div class="progress mb-4" style="height: 8px">
+            <% if (wallet.status === 'completed') { %>
+              <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+            <% } else if (wallet.status === 'in_progress') { %>
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 50%"></div>
+            <% } else if (wallet.status === 'pending') { %>
+              <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+            <% } else { %>
+              <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"></div>
+            <% } %>
+          </div>
+          
+          <div class="row text-center">
+            <div class="col-3">
+              <div class="step completed">
+                <div class="step-icon rounded-circle bg-success text-white mx-auto">
+                  <i class="fas fa-check"></i>
+                </div>
+                <p class="small mt-2 mb-0">Submitted</p>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="step <%= ['in_progress', 'completed'].includes(wallet.status) ? 'completed' : '' %>">
+                <div class="step-icon rounded-circle <%= ['in_progress', 'completed'].includes(wallet.status) ? 'bg-success text-white' : 'bg-light text-muted' %> mx-auto">
+                  <%= ['in_progress', 'completed'].includes(wallet.status) ? '<i class="fas fa-check"></i>' : '2' %>
+                </div>
+                <p class="small mt-2 mb-0">Analyzing</p>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="step <%= wallet.status === 'in_progress' && wallet.progressPercentage >= 75 || wallet.status === 'completed' ? 'completed' : '' %>">
+                <div class="step-icon rounded-circle <%= wallet.status === 'in_progress' && wallet.progressPercentage >= 75 || wallet.status === 'completed' ? 'bg-success text-white' : 'bg-light text-muted' %> mx-auto">
+                  <%= wallet.status === 'in_progress' && wallet.progressPercentage >= 75 || wallet.status === 'completed' ? '<i class="fas fa-check"></i>' : '3' %>
+                </div>
+                <p class="small mt-2 mb-0">Recovering</p>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="step <%= wallet.status === 'completed' ? 'completed' : '' %>">
+                <div class="step-icon rounded-circle <%= wallet.status === 'completed' ? 'bg-success text-white' : 'bg-light text-muted' %> mx-auto">
+                  <%= wallet.status === 'completed' ? '<i class="fas fa-check"></i>' : '4' %>
+                </div>
+                <p class="small mt-2 mb-0">Completed</p>
+              </div>
+            </div>
+          </div>
+          
+          <% if (wallet.status === 'in_progress') { %>
+            <div class="alert alert-info mt-4 mb-0">
+              <i class="fas fa-info-circle me-2"></i> Your wallet recovery is in progress. Our technicians are currently working on it. Estimated completion: <%= wallet.estimatedCompletion %>
+            </div>
+          <% } else if (wallet.status === 'completed') { %>
+            <div class="alert alert-success mt-4 mb-0">
+              <i class="fas fa-check-circle me-2"></i> Your wallet has been successfully recovered! Check your email for instructions on accessing your wallet.
+            </div>
+          <% } else if (wallet.status === 'pending') { %>
+            <div class="alert alert-warning mt-4 mb-0">
+              <i class="fas fa-clock me-2"></i> Your request is pending review. One of our technicians will begin working on it shortly.
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Wallet Details Card -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Wallet Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <p class="text-muted mb-1">Wallet Type</p>
+              <p class="fw-bold mb-0"><%= wallet.walletType.charAt(0).toUpperCase() + wallet.walletType.slice(1) %></p>
+            </div>
+            <div class="col-md-8">
+              <p class="text-muted mb-1">Wallet Address</p>
+              <p class="fw-bold mb-0 text-break"><%= wallet.walletAddress %></p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <p class="text-muted mb-1">Software/Service</p>
+              <p class="fw-bold mb-0"><%= wallet.walletSoftware %></p>
+            </div>
+            <div class="col-md-4">
+              <p class="text-muted mb-1">Last Access</p>
+              <p class="fw-bold mb-0"><%= wallet.lastAccess ? new Date(wallet.lastAccess).toLocaleDateString() : 'Not specified' %></p>
+            </div>
+            <div class="col-md-4">
+              <p class="text-muted mb-1">Priority Level</p>
+              <p class="fw-bold mb-0">
+                <% if (wallet.priorityLevel === 'standard') { %>
+                  <span class="text-muted">Standard</span>
+                <% } else if (wallet.priorityLevel === 'express') { %>
+                  <span class="text-primary">Express</span>
+                <% } else if (wallet.priorityLevel === 'emergency') { %>
+                  <span class="text-danger">Emergency</span>
+                <% } %>
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p class="text-muted mb-1">Issue Type</p>
+              <p class="fw-bold mb-0">
+                <% if (wallet.issueType === 'forgotten_password') { %>
+                  Forgotten Password
+                <% } else if (wallet.issueType === 'lost_seed') { %>
+                  Lost Seed Phrase
+                <% } else if (wallet.issueType === 'hardware_damage') { %>
+                  Hardware Wallet Damage
+                <% } else if (wallet.issueType === 'corrupted_wallet') { %>
+                  Corrupted Wallet File
+                <% } else if (wallet.issueType === 'phishing') { %>
+                  Phishing Attack
+                <% } else if (wallet.issueType === 'other') { %>
+                  Other: <%= wallet.otherIssueType %>
+                <% } %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Issue Description Card -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Issue Description</h5>
+        </div>
+        <div class="card-body">
+          <p><%= wallet.issueDescription %></p>
+        </div>
+      </div>
+      
+      <!-- Recovery Notes Card -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Recovery Notes</h5>
+        </div>
+        <div class="card-body">
+          <% if (wallet.notes && wallet.notes.length > 0) { %>
+            <ul class="list-group list-group-flush">
+              <% wallet.notes.forEach(note => { %>
+                <li class="list-group-item px-0">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0">
+                      <div class="avatar-circle bg-primary text-white">
+                        <%= note.author.charAt(0).toUpperCase() %>
+                      </div>
+                    </div>
+                    <div class="ms-3">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h6 class="mb-0"><%= note.author %> <span class="badge bg-secondary"><%= note.role %></span></h6>
+                        <small class="text-muted"><%= new Date(note.createdAt).toLocaleString() %></small>
+                      </div>
+                      <p class="mb-0"><%= note.content %></p>
+                    </div>
+                  </div>
+                </li>
+              <% }); %>
+            </ul>
+          <% } else { %>
+            <p class="text-muted mb-0">No recovery notes have been added yet.</p>
+          <% } %>
+          
+          <% if (wallet.status !== 'completed' && wallet.status !== 'cancelled') { %>
+            <hr class="my-4">
+            <form action="/wallets/<%= wallet.id %>/notes" method="POST">
+              <div class="mb-3">
+                <label for="noteContent" class="form-label">Add Note</label>
+                <textarea class="form-control" id="noteContent" name="content" rows="3" placeholder="Add any additional information that might help with the recovery process..."></textarea>
+              </div>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-plus me-2"></i>Add Note
+                </button>
+              </div>
+            </form>
+          <% } %>
+        </div>
+      </div>
+      
+      <% if (wallet.status === 'completed') { %>
+        <!-- Recovery Results Card -->
+        <div class="card border-0 shadow-sm mb-4 border-success">
+          <div class="card-header bg-success bg-opacity-10 py-3">
+            <h5 class="mb-0 text-success"><i class="fas fa-check-circle me-2"></i>Recovery Results</h5>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-success">
+              <h6 class="alert-heading">Recovery Successful!</h6>
+              <p>We have successfully recovered access to your wallet. Please follow the instructions below to access your funds.</p>
+            </div>
+            
+            <div class="mb-4">
+              <h6>Access Instructions</h6>
+              <ol>
+                <li>Check your email (<%= user.email %>) for a message with subject "Wallet Recovery Successful - Next Steps"</li>
+                <li>Follow the steps in the email to set up your new access credentials</li>
+                <li>Use the secure link provided to download any necessary recovery files</li>
+                <li>Import your wallet using the instructions specific to your wallet type</li>
+              </ol>
+              <p class="text-muted small">For security reasons, some access details are only shared via email. If you haven't received the email, please check your spam folder or contact support.</p>
+            </div>
+            
+            <div class="mb-4">
+              <h6>Secure Files</h6>
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                  <i class="fas fa-file-alt me-3 text-primary"></i>
+                  <div>
+                    <h6 class="mb-1">Recovery Instructions.pdf</h6>
+                    <small class="text-muted">PDF Document - 1.2 MB</small>
+                  </div>
+                  <i class="fas fa-download ms-auto"></i>
+                </a>
+              </div>
+              <p class="text-muted small mt-2">Files are encrypted and will expire after 7 days for security purposes.</p>
+            </div>
+            
+            <div class="d-grid">
+              <a href="/contact" class="btn btn-outline-primary">
+                <i class="fas fa-headset me-2"></i>Need Help? Contact Support
+              </a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+      
+      <!-- Actions Card -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <% if (wallet.status !== 'completed' && wallet.status !== 'cancelled') { %>
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">
+                <i class="fas fa-times me-2"></i>Cancel Recovery
+              </button>
+              
+              <div class="d-flex">
+                <a href="/wallets/<%= wallet.id %>/edit" class="btn btn-outline-primary me-2">
+                  <i class="fas fa-edit me-2"></i>Edit Details
+                </a>
+                <a href="/contact?subject=Help with wallet recovery #<%= wallet.id %>" class="btn btn-primary">
+                  <i class="fas fa-headset me-2"></i>Contact Support
+                </a>
+              </div>
+            <% } else { %>
+              <a href="/wallets/new" class="btn btn-outline-primary">
+                <i class="fas fa-plus me-2"></i>New Recovery Request
+              </a>
+              
+              <a href="/contact?subject=Help with wallet recovery #<%= wallet.id %>" class="btn btn-primary">
+                <i class="fas fa-headset me-2"></i>Contact Support
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <!-- Customer Support Card -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Customer Support</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="avatar-circle bg-primary text-white me-3">
+              <i class="fas fa-headset"></i>
+            </div>
+            <div>
+              <h6 class="mb-1">Your Recovery Specialist</h6>
+              <p class="mb-0"><%= wallet.specialist || 'Not yet assigned' %></p>
+            </div>
+          </div>
+          
+          <hr class="my-3">
+          
+          <div class="mb-3">
+            <h6 class="mb-2">Support Options</h6>
+            <div class="d-grid gap-2">
+              <a href="/chat/<%= wallet.id %>" class="btn btn-outline-primary">
+                <i class="fas fa-comments me-2"></i>Live Chat
+              </a>
+              <a href="mailto:support@walletrecovery.com?subject=Recovery Request #<%= wallet.id %>" class="btn btn-outline-primary">
+                <i class="fas fa-envelope me-2"></i>Email Support
+              </a>
+              <a href="tel:+18001234567" class="btn btn-outline-primary">
+                <i class="fas fa-phone-alt me-2"></i>Call Support
+              </a>
+            </div>
+          </div>
+          
+          <p class="text-muted small">Our support team is available Monday-Friday from 9 AM to 6 PM EST.</p>
+        </div>
+      </div>
+      
+      <!-- Payment Information Card -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Payment Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <p class="text-muted mb-0">Recovery Fee</p>
+              <h5 class="mb-0">$<%= wallet.fee || 249 %>.00</h5>
+            </div>
+            <span class="badge bg-<%= wallet.paymentStatus === 'paid' ? 'success' : 'warning' %>">
+              <%= wallet.paymentStatus === 'paid' ? 'Paid' : 'Pending' %>
+            </span>
+          </div>
+          
+          <hr class="my-3">
+          
+          <% if (wallet.paymentStatus === 'paid') { %>
+            <div class="d-flex align-items-center mb-3">
+              <div class="me-3 text-success">
+                <i class="fas fa-check-circle fa-2x"></i>
+              </div>
+              <div>
+                <h6 class="mb-1">Payment Complete</h6>
+                <p class="mb-0 small text-muted">Transaction ID: <%= wallet.transactionId || 'TXN-' + Math.random().toString(36).substr(2, 9).toUpperCase() %></p>
+              </div>
+            </div>
+            <p class="text-muted small mb-0">Payment processed on <%= new Date(wallet.paymentDate || wallet.createdAt).toLocaleDateString() %></p>
+          <% } else { %>
+            <p class="mb-3">Complete payment to begin the recovery process.</p>
+            <div class="d-grid">
+              <a href="/payments/<%= wallet.id %>" class="btn btn-primary">
+                <i class="fas fa-credit-card me-2"></i>Complete Payment
+              </a>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Timeline Card -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0">Recovery Timeline</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush">
+            <div class="list-group-item border-0 px-4 py-3">
+              <div class="d-flex">
+                <div class="timeline-dot bg-success"></div>
+                <div class="ms-3">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <h6 class="mb-0">Request Submitted</h6>
+                    <small class="text-muted"><%= new Date(wallet.createdAt).toLocaleString() %></small>
+                  </div>
+                  <p class="text-muted mb-0 small">Your recovery request has been successfully submitted.</p>
+                </div>
+              </div>
+            </div>
+            
+            <% if (wallet.paymentStatus === 'paid') { %>
+              <div class="list-group-item border-0 px-4 py-3">
+                <div class="d-flex">
+                  <div class="timeline-dot bg-success"></div>
+                  <div class="ms-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Payment Confirmed</h6>
+                      <small class="text-muted"><%= new Date(wallet.paymentDate || new Date(wallet.createdAt).getTime() + 3600000).toLocaleString() %></small>
+                    </div>
+                    <p class="text-muted mb-0 small">Payment has been confirmed and processing has begun.</p>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+            
+            <% if (['in_progress', 'completed'].includes(wallet.status)) { %>
+              <div class="list-group-item border-0 px-4 py-3">
+                <div class="d-flex">
+                  <div class="timeline-dot bg-success"></div>
+                  <div class="ms-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Analysis Started</h6>
+                      <small class="text-muted"><%= new Date(wallet.analysisStartDate || new Date(wallet.createdAt).getTime() + 7200000).toLocaleString() %></small>
+                    </div>
+                    <p class="text-muted mb-0 small">Our specialists have begun analyzing your wallet recovery case.</p>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+            
+            <% if (wallet.status === 'in_progress' && wallet.progressPercentage >= 50) { %>
+              <div class="list-group-item border-0 px-4 py-3">
+                <div class="d-flex">
+                  <div class="timeline-dot bg-success"></div>
+                  <div class="ms-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Recovery In Progress</h6>
+                      <small class="text-muted"><%= new Date(wallet.recoveryStartDate || new Date(wallet.createdAt).getTime() + 86400000).toLocaleString() %></small>
+                    </div>
+                    <p class="text-muted mb-0 small">Recovery techniques are being applied to restore access to your wallet.</p>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+            
+            <% if (wallet.status === 'completed') { %>
+              <div class="list-group-item border-0 px-4 py-3">
+                <div class="d-flex">
+                  <div class="timeline-dot bg-success"></div>
+                  <div class="ms-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Recovery Successful</h6>
+                      <small class="text-muted"><%= new Date(wallet.completedDate || new Date(wallet.createdAt).getTime() + 259200000).toLocaleString() %></small>
+                    </div>
+                    <p class="text-muted mb-0 small">Your wallet has been successfully recovered. Access details have been sent to your email.</p>
+                  </div>
+                </div>
+              </div>
+            <% } else if (wallet.status === 'cancelled') { %>
+              <div class="list-group-item border-0 px-4 py-3">
+                <div class="d-flex">
+                  <div class="timeline-dot bg-danger"></div>
+                  <div class="ms-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Recovery Cancelled</h6>
+                      <small class="text-muted"><%= new Date(wallet.cancelledDate || new Date()).toLocaleString() %></small>
+                    </div>
+                    <p class="text-muted mb-0 small">This recovery request has been cancelled.</p>
+                  </div>
+                </div>
+              </div>
+            <% } else { %>
+              <div class="list-group-item border-0 px-4 py-3">
+                <div class="d-flex">
+                  <div class="timeline-dot bg-light"></div>
+                  <div class="ms-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0 text-muted">Estimated Completion</h6>
+                      <small class="text-muted"><%= wallet.estimatedCompletion || new Date(new Date().getTime() + 432000000).toLocaleDateString() %></small>
+                    </div>
+                    <p class="text-muted mb-0 small">Expected completion date for your wallet recovery.</p>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cancel Recovery Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle me-2"></i> Are you sure you want to cancel this recovery request?
+        </div>
+        <p>Cancelling this request will stop all recovery efforts. If payment has been made, refunds are subject to our refund policy based on how much work has been completed.</p>
+        <p>If you're experiencing issues, we recommend contacting our support team before cancelling.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+        <form action="/wallets/<%= wallet.id %>/cancel" method="POST">
+          <button type="submit" class="btn btn-danger">Cancel Recovery</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .crypto-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  .step-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+  
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 5px;
+    position: relative;
+  }
+  
+  .timeline-dot::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background-color: #e9ecef;
+  }
+  
+  .list-group-item:last-child .timeline-dot::before {
+    display: none;
+  }
+</style> 

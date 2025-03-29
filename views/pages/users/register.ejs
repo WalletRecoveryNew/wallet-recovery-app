@@ -1,0 +1,112 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="form-container">
+        <div class="text-center mb-4">
+          <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+          <h2 class="fw-bold">Create Your Account</h2>
+          <p class="text-muted">Join our wallet recovery service to get started</p>
+        </div>
+        
+        <form action="/users/register" method="POST">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" value="<%= typeof name != 'undefined' ? name : '' %>" required>
+              </div>
+            </div>
+            
+            <div class="col-md-12 mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" value="<%= typeof email != 'undefined' ? email : '' %>" required>
+              </div>
+              <small class="form-text text-muted">We'll send a verification link to this email</small>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Create a password" required>
+                <button class="btn btn-outline-secondary" type="button" id="toggle-password">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="mt-2">
+                <meter id="password-strength-meter" min="0" max="5" low="2" high="4" optimum="5" value="0" class="w-100"></meter>
+                <small id="password-strength-text" class="form-text">Password strength</small>
+              </div>
+              <small class="form-text text-muted">
+                Password should be at least 8 characters with a mix of letters, numbers, and symbols
+              </small>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label for="password2" class="form-label">Confirm Password</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm your password" required>
+              </div>
+            </div>
+            
+            <div class="col-md-12 mb-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                <label class="form-check-label" for="terms">
+                  I agree to the <a href="/terms" class="text-decoration-none" target="_blank">Terms of Service</a> and <a href="/privacy" class="text-decoration-none" target="_blank">Privacy Policy</a>
+                </label>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        
+        <div class="text-center mt-4">
+          <p>Already have an account? <a href="/users/login" class="text-decoration-none">Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle password visibility
+  document.getElementById('toggle-password').addEventListener('click', function() {
+    const passwordInput = document.getElementById('password');
+    const icon = this.querySelector('i');
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  });
+  
+  // Password match validation
+  const password1 = document.getElementById('password');
+  const password2 = document.getElementById('password2');
+  
+  function validatePassword() {
+    if (password1.value !== password2.value) {
+      password2.setCustomValidity("Passwords don't match");
+    } else {
+      password2.setCustomValidity('');
+    }
+  }
+  
+  password1.addEventListener('change', validatePassword);
+  password2.addEventListener('keyup', validatePassword);
+</script> 
